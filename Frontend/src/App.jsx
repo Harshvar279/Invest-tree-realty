@@ -24,7 +24,7 @@ export default function App() {
   useEffect(() => {
     initSmoothScroll()
 
-    const t = setTimeout(() => setLoading(false), 2200)
+    const t = setTimeout(() => setLoading(false), 3500)
 
     return () => clearTimeout(t)
   }, [])
