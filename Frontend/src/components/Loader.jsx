@@ -1,25 +1,40 @@
-import { motion } from 'framer-motion'
+import { motion } from "framer-motion";
 
 export default function Loader() {
   return (
-    <motion.div
-      initial={{ opacity: 1 }}
-      animate={{ opacity: 0 }}
-      transition={{ delay: 1.8, duration: 0.6 }}
-      className="fixed inset-0 z-[200] flex items-center justify-center bg-obsidian"
-    >
-      <div className="text-center">
-        <p className="eyebrow mb-6">INVEST TREE REALTY</p>
-        <h1 className="font-display text-5xl md:text-7xl italic gold-gradient">
-          Where Skylines<br/>Take Root.
+    <div className="fixed inset-0 z-[9999] bg-black flex items-center justify-center overflow-hidden">
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+        className="flex items-center gap-6"
+      >
+
+        <h1 className="text-white text-3xl md:text-5xl tracking-[10px] font-light">
+          INVEST TREE
         </h1>
+
         <motion.div
-          initial={{ width: 0 }}
-          animate={{ width: '100%' }}
-          transition={{ duration: 1.6, ease: 'easeInOut' }}
-          className="h-px bg-gold mt-10 mx-auto max-w-xs"
+          initial={{ height: 0 }}
+          animate={{ height: 120 }}
+          transition={{ duration: 1 }}
+          className="w-[1px] bg-white"
         />
-      </div>
-    </motion.div>
-  )
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{
+            delay: 1,
+            duration: 1,
+          }}
+          className="text-white text-2xl md:text-4xl font-light"
+        >
+          Your Satisfaction
+        </motion.div>
+
+      </motion.div>
+    </div>
+  );
 }
