@@ -55,3 +55,17 @@ html, body {
 .fade-mask {
   mask-image: linear-gradient(180deg, transparent 0%, black 15%, black 85%, transparent 100%);
 }
+.perspective-\[1500px\] {
+  perspective: 1500px;
+}
+
+/* Smooth luxury feel */
+body {
+  background: #08090C;
+  cursor: default;
+}
+
+/* Make text blend smoother */
+h1, h2, h3 {
+  letter-spacing: -0.02em;
+}
