@@ -5,9 +5,7 @@ import Loader from './components/Loader'
 import Navbar from './components/Navbar'
 
 /* NEW */
-import GlassCity from './components/GlassCity'
 import Hero from './components/Hero'
-import BusinessCard3D from './components/BusinessCard3D'
 import Founder from './components/Founder'
 
 /* EXISTING */
