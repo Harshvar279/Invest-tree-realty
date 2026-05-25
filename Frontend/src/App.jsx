@@ -34,17 +34,11 @@ export default function App() {
       
       {loading && <Loader />}
 
-      {/* NEW 3D BACKGROUND */}
-      <GlassCity />
-
       {/* EXISTING NAVBAR */}
       <Navbar />
 
       {/* NEW HERO */}
       <Hero />
-
-      {/* NEW BUSINESS CARD */}
-      <BusinessCard3D />
 
       {/* NEW FOUNDER SECTION */}
       <Founder />
