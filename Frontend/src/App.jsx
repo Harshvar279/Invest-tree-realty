@@ -1,0 +1,41 @@
+import { useEffect, useState } from 'react'
+import { initSmoothScroll } from './lib/smoothScroll'
+import Loader from './components/Loader'
+import Navbar from './components/Navbar'
+import Hero3D from './components/Hero3D'
+import Manifesto from './components/Manifesto'
+import Services from './components/Services'
+import Builders from './components/Builders'
+import About from './components/About'
+import Properties from './components/Properties'
+import Testimonials from './components/Testimonials'
+import Gallery from './components/Gallery'
+import Contact from './components/Contact'
+import Footer from './components/Footer'
+
+export default function App() {
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    initSmoothScroll()
+    const t = setTimeout(() => setLoading(false), 2200)
+    return () => clearTimeout(t)
+  }, [])
+
+  return (
+    <div className="noise relative bg-obsidian text-pearl">
+      {loading && <Loader />}
+      <Navbar />
+      <Hero3D />
+      <Manifesto />
+      <Services />
+      <Builders />
+      <About />
+      <Properties />
+      <Testimonials />
+      <Gallery />
+      <Contact />
+      <Footer />
+    </div>
+  )
+}
