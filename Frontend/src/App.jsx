@@ -1,12 +1,19 @@
 import { useEffect, useState } from 'react'
 import { initSmoothScroll } from './lib/smoothScroll'
+
 import Loader from './components/Loader'
 import Navbar from './components/Navbar'
-import Hero3D from './components/Hero3D'
+
+/* NEW */
+import GlassCity from './components/GlassCity'
+import Hero from './components/Hero'
+import BusinessCard3D from './components/BusinessCard3D'
+import Founder from './components/Founder'
+
+/* EXISTING */
 import Manifesto from './components/Manifesto'
 import Services from './components/Services'
 import Builders from './components/Builders'
-import About from './components/About'
 import Properties from './components/Properties'
 import Testimonials from './components/Testimonials'
 import Gallery from './components/Gallery'
@@ -18,24 +25,42 @@ export default function App() {
 
   useEffect(() => {
     initSmoothScroll()
+
     const t = setTimeout(() => setLoading(false), 2200)
+
     return () => clearTimeout(t)
   }, [])
 
   return (
     <div className="noise relative bg-obsidian text-pearl">
+      
       {loading && <Loader />}
+
+      {/* NEW 3D BACKGROUND */}
+      <GlassCity />
+
+      {/* EXISTING NAVBAR */}
       <Navbar />
-      <Hero3D />
+
+      {/* NEW HERO */}
+      <Hero />
+
+      {/* NEW BUSINESS CARD */}
+      <BusinessCard3D />
+
+      {/* NEW FOUNDER SECTION */}
+      <Founder />
+
+      {/* KEEP ALL YOUR EXISTING SECTIONS */}
       <Manifesto />
       <Services />
       <Builders />
-      <About />
       <Properties />
       <Testimonials />
       <Gallery />
       <Contact />
       <Footer />
+
     </div>
   )
 }
