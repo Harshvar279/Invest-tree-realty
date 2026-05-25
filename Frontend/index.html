@@ -1,17 +1,492 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Invest Tree Realty — Your Satisfaction, Our Expertise.</title>
-    <meta name="description" content="Gurugram's quiet standard in luxury real estate. Partnered with DLF, M3M, Whiteland, Hero Homes, BPTP. Negligible brokerage. RERA registered." />
-    <link rel="icon" type="image/png" href="/logo.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,500;0,700;1,500&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  </head>
-  <body class="bg-obsidian">
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Invest Tree Realty — Luxury Real Estate</title>
+<meta name="description" content="Invest Tree Realty — Premium real estate investments. Your satisfaction, our expertise."/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --gold:#c9a86a;
+    --gold-bright:#e6c789;
+    --bg:#0a0e14;
+    --bg-2:#070a0f;
+    --text:#e8e6e1;
+    --muted:#9a9690;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    overflow-x:hidden;
+    scroll-behavior:smooth;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:fixed;top:0;left:0;width:100%;
+    padding:22px 6%;
+    display:flex;justify-content:space-between;align-items:center;
+    z-index:100;
+    background:linear-gradient(180deg,rgba(7,10,15,.85),rgba(7,10,15,0));
+    backdrop-filter:blur(12px);
+    transition:padding .4s ease;
+  }
+  nav.scrolled{padding:14px 6%;background:rgba(7,10,15,.95)}
+  .logo{
+    font-family:'Cormorant Garamond',serif;
+    font-size:1.6rem;font-weight:600;
+    color:var(--gold);
+    letter-spacing:2px;
+  }
+  .logo span{color:var(--text);font-weight:300}
+  .nav-links{display:flex;gap:38px;list-style:none}
+  .nav-links a{
+    color:var(--text);text-decoration:none;
+    font-size:.85rem;letter-spacing:1.5px;
+    text-transform:uppercase;font-weight:400;
+    transition:color .3s;
+    position:relative;
+  }
+  .nav-links a:hover{color:var(--gold)}
+  .nav-links a::after{
+    content:'';position:absolute;bottom:-6px;left:0;
+    width:0;height:1px;background:var(--gold);
+    transition:width .3s;
+  }
+  .nav-links a:hover::after{width:100%}
+
+  /* ---------- HERO with 3D parallax ---------- */
+  .hero{
+    position:relative;
+    height:100vh;width:100%;
+    overflow:hidden;
+    display:flex;align-items:center;justify-content:center;
+    perspective:1000px;
+  }
+  .hero-bg{
+    position:absolute;inset:-5%;
+    background-image:url('public/skyline.jpg'); /* USE THE IMAGE I GENERATED */
+    background-size:cover;background-position:center;
+    transform:scale(1.1);
+    will-change:transform;
+    animation:slowZoom 20s ease-in-out infinite alternate;
+  }
+  @keyframes slowZoom{
+    0%{transform:scale(1.1) translateY(0)}
+    100%{transform:scale(1.18) translateY(-2%)}
+  }
+  .hero-overlay{
+    position:absolute;inset:0;
+    background:
+      radial-gradient(ellipse at center,rgba(10,14,20,.3) 0%,rgba(10,14,20,.85) 100%),
+      linear-gradient(180deg,rgba(7,10,15,.4) 0%,rgba(7,10,15,.95) 100%);
+  }
+  .hero-content{
+    position:relative;z-index:2;
+    text-align:center;
+    padding:0 20px;
+    max-width:1100px;
+    width:100%;
+  }
+  .eyebrow{
+    color:var(--gold);
+    font-size:.8rem;
+    letter-spacing:6px;
+    text-transform:uppercase;
+    margin-bottom:24px;
+    opacity:0;
+    animation:fadeUp 1.2s .3s forwards;
+  }
+  .hero h1{
+    font-family:'Cormorant Garamond',serif;
+    font-size:clamp(2.5rem,7vw,6rem); /* THIS fixes the cut-off issue */
+    font-weight:400;
+    line-height:1.05;
+    letter-spacing:-1px;
+    margin-bottom:28px;
+    opacity:0;
+    animation:fadeUp 1.2s .6s forwards;
+  }
+  .hero h1 .gold{
+    color:var(--gold);
+    font-style:italic;
+    font-weight:500;
+  }
+  .rotator{
+    font-family:'Cormorant Garamond',serif;
+    font-size:clamp(1.2rem,2.5vw,2rem);
+    color:var(--muted);
+    font-style:italic;
+    height:1.5em;
+    overflow:hidden;
+    margin-bottom:40px;
+    opacity:0;
+    animation:fadeUp 1.2s .9s forwards;
+  }
+  .rotator-inner{
+    display:inline-block;
+    animation:rotateText 9s infinite;
+  }
+  .rotator-inner span{
+    display:block;
+    height:1.5em;
+  }
+  @keyframes rotateText{
+    0%,28%   {transform:translateY(0)}
+    33%,61%  {transform:translateY(-1.5em)}
+    66%,94%  {transform:translateY(-3em)}
+    100%     {transform:translateY(-4.5em)}
+  }
+  .cta-group{
+    display:flex;gap:20px;justify-content:center;flex-wrap:wrap;
+    opacity:0;
+    animation:fadeUp 1.2s 1.2s forwards;
+  }
+  .btn{
+    padding:16px 42px;
+    border:1px solid var(--gold);
+    background:transparent;
+    color:var(--gold);
+    text-decoration:none;
+    font-size:.8rem;
+    letter-spacing:3px;
+    text-transform:uppercase;
+    cursor:pointer;
+    transition:all .4s cubic-bezier(.2,.8,.2,1);
+    position:relative;
+    overflow:hidden;
+  }
+  .btn::before{
+    content:'';position:absolute;inset:0;
+    background:var(--gold);
+    transform:scaleX(0);transform-origin:right;
+    transition:transform .5s cubic-bezier(.2,.8,.2,1);
+    z-index:-1;
+  }
+  .btn:hover{color:var(--bg)}
+  .btn:hover::before{transform:scaleX(1);transform-origin:left}
+  .btn.primary{background:var(--gold);color:var(--bg)}
+  .btn.primary:hover{background:var(--gold-bright)}
+
+  @keyframes fadeUp{
+    from{opacity:0;transform:translateY(30px)}
+    to{opacity:1;transform:translateY(0)}
+  }
+
+  .scroll-hint{
+    position:absolute;bottom:40px;left:50%;
+    transform:translateX(-50%);
+    color:var(--muted);
+    font-size:.7rem;letter-spacing:3px;
+    text-transform:uppercase;
+    opacity:0;
+    animation:fadeUp 1.2s 1.8s forwards, bounce 2s 2.5s infinite;
+  }
+  @keyframes bounce{
+    0%,100%{transform:translateX(-50%) translateY(0)}
+    50%{transform:translateX(-50%) translateY(10px)}
+  }
+
+  /* ---------- SECTIONS ---------- */
+  section{padding:120px 6%}
+  .section-title{
+    font-family:'Cormorant Garamond',serif;
+    font-size:clamp(2rem,4vw,3.5rem);
+    font-weight:400;
+    text-align:center;
+    margin-bottom:20px;
+  }
+  .section-title .gold{color:var(--gold);font-style:italic}
+  .section-sub{
+    text-align:center;color:var(--muted);
+    max-width:600px;margin:0 auto 80px;
+    font-size:1rem;line-height:1.7;
+  }
+
+  /* About */
+  .about{background:var(--bg-2);position:relative}
+  .about-grid{
+    display:grid;grid-template-columns:1fr 1fr;gap:80px;
+    max-width:1300px;margin:0 auto;align-items:center;
+  }
+  .about-text h2{
+    font-family:'Cormorant Garamond',serif;
+    font-size:clamp(2rem,4vw,3.2rem);
+    font-weight:400;line-height:1.15;margin-bottom:30px;
+  }
+  .about-text h2 .gold{color:var(--gold);font-style:italic}
+  .about-text p{color:var(--muted);line-height:1.9;margin-bottom:20px;font-size:1.02rem}
+  .about-img{
+    position:relative;height:500px;
+    background:url('public/founder.jpg') center/cover;
+    border:1px solid rgba(201,168,106,.3);
+    transform:perspective(1000px) rotateY(-5deg);
+    transition:transform .6s;
+  }
+  .about-img:hover{transform:perspective(1000px) rotateY(0)}
+  .about-img::after{
+    content:'';position:absolute;inset:15px;
+    border:1px solid var(--gold);
+    pointer-events:none;
+  }
+
+  /* Services */
+  .services-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:30px;
+    max-width:1300px;margin:0 auto;
+  }
+  .service{
+    padding:50px 35px;
+    border:1px solid rgba(201,168,106,.15);
+    background:linear-gradient(180deg,rgba(201,168,106,.03),transparent);
+    transition:all .5s cubic-bezier(.2,.8,.2,1);
+    cursor:pointer;
+    position:relative;
+    overflow:hidden;
+  }
+  .service::before{
+    content:'';position:absolute;top:0;left:0;width:0;height:1px;
+    background:var(--gold);transition:width .6s;
+  }
+  .service:hover::before{width:100%}
+  .service:hover{
+    transform:translateY(-8px);
+    border-color:var(--gold);
+    background:linear-gradient(180deg,rgba(201,168,106,.08),transparent);
+  }
+  .service-num{
+    color:var(--gold);
+    font-family:'Cormorant Garamond',serif;
+    font-size:1rem;letter-spacing:3px;margin-bottom:30px;
+  }
+  .service h3{
+    font-family:'Cormorant Garamond',serif;
+    font-size:1.8rem;font-weight:500;
+    margin-bottom:18px;
+  }
+  .service p{color:var(--muted);line-height:1.7;font-size:.95rem}
+
+  /* Stats */
+  .stats{
+    background:url('public/skyline.jpg') center/cover fixed;
+    position:relative;
+    text-align:center;
+  }
+  .stats::before{
+    content:'';position:absolute;inset:0;
+    background:rgba(7,10,15,.88);
+  }
+  .stats-inner{position:relative;z-index:2;display:grid;grid-template-columns:repeat(4,1fr);gap:40px;max-width:1200px;margin:0 auto}
+  .stat-num{
+    font-family:'Cormorant Garamond',serif;
+    font-size:clamp(2.5rem,5vw,4rem);
+    color:var(--gold);
+    font-weight:500;
+    margin-bottom:10px;
+  }
+  .stat-label{
+    color:var(--text);
+    letter-spacing:2px;
+    font-size:.8rem;
+    text-transform:uppercase;
+  }
+
+  /* Contact */
+  .contact{background:var(--bg-2);text-align:center}
+  .contact-form{
+    max-width:600px;margin:0 auto;
+    display:flex;flex-direction:column;gap:20px;
+  }
+  .contact-form input,.contact-form textarea{
+    background:transparent;
+    border:none;
+    border-bottom:1px solid rgba(201,168,106,.3);
+    padding:18px 0;
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    font-size:1rem;
+    outline:none;
+    transition:border-color .3s;
+  }
+  .contact-form input:focus,.contact-form textarea:focus{border-bottom-color:var(--gold)}
+  .contact-form textarea{resize:vertical;min-height:120px}
+  .contact-form button{
+    margin-top:20px;align-self:center;
+  }
+
+  /* Footer */
+  footer{
+    padding:40px 6%;
+    text-align:center;
+    border-top:1px solid rgba(201,168,106,.1);
+    color:var(--muted);
+    font-size:.85rem;
+    letter-spacing:1px;
+  }
+  footer .gold{color:var(--gold)}
+
+  /* Reveal on scroll */
+  .reveal{opacity:0;transform:translateY(40px);transition:all 1s cubic-bezier(.2,.8,.2,1)}
+  .reveal.in{opacity:1;transform:translateY(0)}
+
+  /* Mobile */
+  @media(max-width:900px){
+    .nav-links{display:none}
+    .about-grid,.services-grid,.stats-inner{grid-template-columns:1fr;gap:40px}
+    .about-img{height:400px;transform:none}
+    section{padding:80px 6%}
+  }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="logo">INVEST <span>TREE</span></div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#stats">Portfolio</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="eyebrow">Premium Real Estate · Est. Excellence</div>
+    <h1>Invest <span class="gold">Tree</span> Realty</h1>
+    <div class="rotator">
+      <div class="rotator-inner">
+        <span>Your satisfaction.</span>
+        <span>Our expertise.</span>
+        <span>Your legacy.</span>
+        <span>Your satisfaction.</span>
+      </div>
+    </div>
+    <div class="cta-group">
+      <a href="#contact" class="btn primary">Schedule Consultation</a>
+      <a href="#services" class="btn">Explore Portfolio</a>
+    </div>
+  </div>
+  <div class="scroll-hint">Scroll ↓</div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <h2>Crafting <span class="gold">timeless</span> investments.</h2>
+      <p>At Invest Tree Realty, we don't just sell properties — we curate legacies. Every transaction is built on decades of market intelligence, an obsession with detail, and an unwavering commitment to our clients' vision.</p>
+      <p>From skyline penthouses to boutique commercial holdings, we operate where opportunity meets discretion.</p>
+    </div>
+    <div class="about-img reveal"></div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <h2 class="section-title reveal">Our <span class="gold">Services</span></h2>
+  <p class="section-sub reveal">Bespoke advisory across every dimension of real estate.</p>
+  <div class="services-grid">
+    <div class="service reveal">
+      <div class="service-num">01 / RESIDENTIAL</div>
+      <h3>Luxury Homes</h3>
+      <p>Curated penthouses, villas, and signature estates in the world's most prestigious neighborhoods.</p>
+    </div>
+    <div class="service reveal">
+      <div class="service-num">02 / COMMERCIAL</div>
+      <h3>Investment Assets</h3>
+      <p>High-yield commercial properties, off-market deals, and portfolio diversification strategies.</p>
+    </div>
+    <div class="service reveal">
+      <div class="service-num">03 / ADVISORY</div>
+      <h3>Wealth Strategy</h3>
+      <p>End-to-end consulting — acquisition, financing structure, tax optimization, and exit planning.</p>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats" id="stats">
+  <div class="stats-inner">
+    <div class="reveal"><div class="stat-num">$2.4B+</div><div class="stat-label">Transacted</div></div>
+    <div class="reveal"><div class="stat-num">500+</div><div class="stat-label">Properties</div></div>
+    <div class="reveal"><div class="stat-num">15</div><div class="stat-label">Years</div></div>
+    <div class="reveal"><div class="stat-num">98%</div><div class="stat-label">Client Retention</div></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <h2 class="section-title reveal">Begin your <span class="gold">journey</span>.</h2>
+  <p class="section-sub reveal">Confidential consultation. By appointment only.</p>
+  <form class="contact-form reveal" onsubmit="event.preventDefault();alert('Thank you. We will reach out within 24 hours.');this.reset();">
+    <input type="text" placeholder="Full Name" required>
+    <input type="email" placeholder="Email Address" required>
+    <input type="tel" placeholder="Phone (optional)">
+    <textarea placeholder="Tell us about your vision..." required></textarea>
+    <button type="submit" class="btn primary">Send Inquiry</button>
+  </form>
+</section>
+
+<footer>
+  © 2025 <span class="gold">Invest Tree Realty</span> — All rights reserved.
+</footer>
+
+<script>
+  // Nav scroll effect
+  const nav=document.getElementById('nav');
+  window.addEventListener('scroll',()=>{
+    nav.classList.toggle('scrolled',window.scrollY>50);
+  },{passive:true});
+
+  // Parallax hero (cheap & smooth, no Three.js)
+  const heroBg=document.getElementById('heroBg');
+  let ticking=false;
+  window.addEventListener('scroll',()=>{
+    if(!ticking){
+      requestAnimationFrame(()=>{
+        const y=window.scrollY;
+        if(y<window.innerHeight){
+          heroBg.style.transform=`scale(1.1) translateY(${y*0.3}px)`;
+        }
+        ticking=false;
+      });
+      ticking=true;
+    }
+  },{passive:true});
+
+  // Mouse-tilt 3D effect on hero
+  const hero=document.querySelector('.hero');
+  hero.addEventListener('mousemove',e=>{
+    const x=(e.clientX/window.innerWidth-.5)*10;
+    const y=(e.clientY/window.innerHeight-.5)*10;
+    heroBg.style.transform=`scale(1.1) translate(${-x}px,${-y}px)`;
+  });
+
+  // Reveal on scroll (intersection observer = zero lag)
+  const io=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}
+    });
+  },{threshold:.15});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  // Smooth anchor scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click',e=>{
+      const t=document.querySelector(a.getAttribute('href'));
+      if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});}
+    });
+  });
+</script>
+</body>
 </html>
